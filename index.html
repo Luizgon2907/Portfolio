@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Luiz Gonzales | Finance Leader & Software Engineer</title>
+<title>Luiz Gonzales | Senior Finance Leader · FCCA</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
@@ -170,36 +170,36 @@ dash:`<svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg">
 };
 
 const PROJECTS=[
-{id:"jobflow",title:"JobFlow AI",cat:"Full-Stack · AI · Chrome Ext",neon:C1,mock:"jobflow",
+{id:"jobflow",title:"Workflow Automation Tool",cat:"Finance Operations · AI Automation",neon:C1,mock:"jobflow",
 stack:["Python","FastAPI","React","Vite","SQLite","Claude API","Chrome MV3","SMTP","Fernet"],
-desc:"End-to-end job application platform: AI resume tailoring with ATS scoring, Chrome Extension auto-fill, multi-platform auto-apply queue with follow-up scheduling.",
-feats:["AI resume tailoring + real-time ATS scoring","Chrome Extension (MV3) answer bank auto-fill","Auto-apply queue with approval workflow","Adzuna & JSearch API aggregation","Encrypted credentials (Fernet)","Gmail SMTP follow-up scheduling"],
-arch:"FastAPI ↔ React SPA ↔ Chrome Extension · SQLite · Claude Haiku",impact:"~25 min → under 3 min per application."},
-{id:"sop",title:"SOP Intelligence",cat:"Next.js · TypeScript · AI",neon:C2,mock:"sop",
+desc:"Automation solution designed to eliminate high-volume repetitive tasks — reducing manual processing time, improving accuracy, and freeing finance teams to focus on higher-value work.",
+feats:["AI-assisted document processing with accuracy scoring","Browser-based automation for repetitive data entry","Queue-based approval workflow with audit trail","Multi-source data aggregation and normalization","Encrypted credential handling for compliance","Automated follow-up scheduling and notifications"],
+arch:"FastAPI ↔ React SPA ↔ Chrome Extension · SQLite · Claude Haiku",impact:"Task cycle time: ~25 min → under 3 min per item."},
+{id:"sop",title:"Audit-Ready SOP Documentation System",cat:"Compliance · Controls · AI",neon:C2,mock:"sop",
 stack:["Next.js 16","TypeScript","React 19","Tailwind 4","shadcn/ui","Claude SDK","Zod"],
-desc:"Enterprise app generating audit-ready SOPs and analyzing documents for compliance gaps — SOX/COSO, ISO 9001, ITIL 4.",
-feats:["Natural-language → full SOP with RACI, risk register","Compliance scoring with deficiency rankings","Framework-specific: SOX/COSO, ISO 9001, ITIL 4","Rate-limited API with Zod & auth"],
-arch:"Next.js App Router · Claude SDK · Zod · Rate limiter",impact:"Multi-day SOP drafting → 5-minute workflow."},
-{id:"pact",title:"PACT Controls",cat:"Full-Stack · AI · SOX/COSO",neon:C3,mock:"pact",
+desc:"Enterprise platform generating audit-ready standard operating procedures and analyzing existing documents for compliance gaps — aligned to SOX/COSO, ISO 9001, and ITIL 4 frameworks.",
+feats:["Natural-language input → full SOP with RACI matrix and risk register","Compliance gap scoring with ranked deficiency reports","Framework-specific output: SOX/COSO, ISO 9001, ITIL 4","Document analysis for policy and control alignment","Rate-limited API with validation and access controls"],
+arch:"Next.js App Router · Claude SDK · Zod · Rate limiter",impact:"Multi-day SOP drafting reduced to a 5-minute workflow."},
+{id:"pact",title:"Internal Controls Management Platform",cat:"SOX · COSO · Controls Monitoring",neon:C3,mock:"pact",
 stack:["Node.js","Express","React","Vite","Tailwind","SQLite","Claude AI"],
-desc:"Internal controls management — Claude AI generates process docs, suggests COSO controls, identifies deficiencies with remediation.",
-feats:["AI-generated process documentation","COSO/SOX control suggestions","Deficiency identification + remediation","Real-time controls dashboard"],
-arch:"Express API ↔ React SPA · Claude service · SQLite",impact:"Spreadsheet tracking → AI monitoring."},
-{id:"procurement",title:"GR Procurement",cat:"Power Apps · Federal",neon:C4,mock:"procurement",
+desc:"Centralized platform for managing internal controls — AI-assisted process documentation, COSO/SOX control mapping, deficiency identification, and real-time remediation tracking.",
+feats:["AI-generated process and control documentation","COSO/SOX control mapping with gap identification","Deficiency tracking with remediation workflow","Real-time controls dashboard with status visibility","Audit-ready reporting and evidence management"],
+arch:"Express API ↔ React SPA · Claude service · SQLite",impact:"Replaced manual spreadsheet tracking with real-time AI-monitored controls visibility."},
+{id:"procurement",title:"Federal Procurement Compliance Application",cat:"2 CFR 200 · Federal Grants · Controls",neon:C4,mock:"procurement",
 stack:["Power Apps","Power Fx","SharePoint","2 CFR 200"],
-desc:"Canvas app generating dynamic procurement checklists by threshold, funding source, and method — mapped to federal policy citations.",
-feats:["Threshold logic: micro → formal procurement","Policy citations (§6.2–§9)","Auto SAM.gov check for federal funds","CFO sole-source approval workflow"],
-arch:"Power Apps Canvas · ClearCollect · SharePoint",impact:"4-page paper checklist → error-preventing app."},
-{id:"macros",title:"Finance Automation",cat:"Excel VBA · Python",neon:C2,mock:"macros",
+desc:"Dynamic compliance application generating threshold-specific procurement checklists mapped to federal policy citations — eliminating manual errors and ensuring consistent adherence to 2 CFR 200.",
+feats:["Threshold-based logic: micro-purchase → formal competitive procurement","Embedded policy citations (§6.2–§9) for every requirement","Automated SAM.gov debarment check trigger for federal funds","CFO sole-source justification approval workflow","SharePoint-backed audit trail for grant compliance"],
+arch:"Power Apps Canvas · ClearCollect · SharePoint",impact:"Error-prone 4-page paper checklist replaced with a self-guiding digital compliance tool."},
+{id:"macros",title:"Month-End Close & Reconciliation Suite",cat:"Excel VBA · Python · Finance Automation",neon:C2,mock:"macros",
 stack:["Excel VBA","Python 3.13","python-docx","pdfminer","Salesforce","ADP"],
-desc:"Production VBA macros and Python scripts: multi-source reconciliation, fuzzy matching, Salesforce-to-ADP conversion.",
-feats:["AR Recon (834-line VBA): 5-check validation","Vendor Recon: 85% fuzzy matching","Equipment Reallocation: SF → ADP format","Report Transformer with combo validation"],
-arch:"VBA in .xlsm · Python scripts · Dictionary processing",impact:"Month-end close: 2+ days → under 30 min."},
-{id:"dash",title:"Finance Dashboards",cat:"HTML/JS · Data Viz",neon:C1,mock:"dash",
+desc:"Production automation suite for month-end close — multi-source AR/AP reconciliation with fuzzy matching, cross-system data conversion, and automated financial report generation.",
+feats:["AR Reconciliation: 5-check validation logic across multiple data sources","Vendor Recon: 85% fuzzy name matching to reduce manual lookup","Equipment Reallocation: Salesforce-to-ADP automated format conversion","Report Transformer: automated financial package generation","Reduces manual intervention across the entire close process"],
+arch:"VBA in .xlsm · Python scripts · Dictionary processing",impact:"Month-end close processing: 2+ days reduced to under 30 minutes."},
+{id:"dash",title:"Executive Finance Reporting Dashboards",cat:"Finance Reporting · Data Visualization",neon:C1,mock:"dash",
 stack:["HTML5","CSS3","JavaScript","Chart.js"],
-desc:"Lightweight web apps for finance teams — COA compliance, account tracking, ORR dashboard, bank reconciliation.",
-feats:["COA Compliance Command Center","Interactive account tracker","ORR Finance grant dashboard","Bank reconciliation tools"],
-arch:"Single-file HTML · Vanilla JS · Instant deploy",impact:"Instant compliance visibility, zero infrastructure."}
+desc:"Lightweight, rapidly deployed web dashboards giving finance leadership real-time visibility into COA compliance, account status, grant performance, and bank reconciliation.",
+feats:["COA Compliance Command Center with account-level drill-down","Interactive account tracker with status and aging","ORR Finance grant dashboard for federal reporting","Bank reconciliation tools with variance flagging","Zero-infrastructure deployment — instant access for finance teams"],
+arch:"Single-file HTML · Vanilla JS · Instant deploy",impact:"Instant executive-level compliance and reporting visibility with no infrastructure overhead."}
 ];
 
 const CAREER=[
@@ -236,15 +236,14 @@ highlights:[
 ];
 
 const SKILLS={
-"Finance & Accounting":["Financial Reporting","Month-End Close","Revenue Recognition","$80M Budget Mgmt","Audit & Assurance","Forecasting","AP/AR","Balance Sheet Recon","Technical Accounting"],
-"Enterprise Systems":["Sage Intacct","SAP","Oracle","QuickBooks","Microsoft Dynamics","Tableau","Power BI","HIPAA"],
-"AI & Software":["Claude API","Anthropic SDK","Prompt Engineering","AI-Augmented Dev","Python","FastAPI","React","Next.js"],
-"Compliance & Standards":["GAAP","IFRS","SOX/COSO","2 CFR 200","ISO 9001","ITIL 4","Internal Controls","UAE Statutory"],
-"Power Platform":["Power Apps","Power Automate","Power BI","Power Query","Power Pivot","Excel VBA/Macros","SharePoint"],
-"Dev Tools":["TypeScript","JavaScript","Tailwind CSS","Vite","Git","Vercel","VS Code","Windsurf","SQLite","Zod"]
+"Financial Leadership":["Financial Reporting","Month-End Close","Revenue Recognition","$80M Budget Mgmt","Cash Forecasting","Scenario Analysis","AP/AR Management","Balance Sheet Recon","Technical Accounting","Multi-Entity Consolidation"],
+"Audit, Compliance & Controls":["Audit & Assurance","Internal Controls","GAAP","IFRS","SOX/COSO","2 CFR 200","ISO 9001","ITIL 4","UAE Statutory","HIPAA","Zero-Findings Track Record"],
+"ERP, Reporting & Analytics":["Sage Intacct","SAP","Oracle","QuickBooks","Microsoft Dynamics","Tableau","Power BI","Power Query","Power Pivot","ERP Migration"],
+"Automation & Process Improvement":["Power Apps","Power Automate","Excel VBA/Macros","SharePoint","Python","Prompt Engineering","AI-Augmented Workflows","Process Re-engineering"],
+"Technical Tools":["Claude API","Anthropic SDK","FastAPI","React","Next.js","TypeScript","JavaScript","Tailwind CSS","Git","Vercel","SQLite"]
 };
 
-const NC=[C1,C4,C2,C3,C1,C2];
+const NC=[C1,C4,C2,C3,C4];
 
 // ─── COMPONENTS ────────────────────────────────────────────────────────────
 
@@ -256,7 +255,7 @@ function SL({text}){
 }
 
 function Nav({active}){
-  const links=["About","Journey","Career","Projects","Skills","Contact"];
+  const links=["About","Career","Projects","Skills","Journey","Contact"];
   return <nav className="glass-nav">
     <div style={{maxWidth:1280,margin:"0 auto",padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:"100%"}}>
       <span style={{...O,fontSize:17,fontWeight:900,letterSpacing:"5px",color:C1,textShadow:`0 0 16px ${C1}50,0 0 32px ${C1}18`}}>LG</span>
@@ -301,11 +300,11 @@ function Hero(){
   useEffect(()=>{requestAnimationFrame(()=>setV(true))},[]);
   const stats=[
     {val:"$80M",label:"Budget Managed",c:C1},
-    {val:"$3M",label:"Revenue Found",c:C3},
-    {val:"13+",label:"Years Finance",c:C2},
+    {val:"$800K+",label:"Revenue Recovered",c:C3},
+    {val:"5-Day",label:"Month-End Close",c:C2},
     {val:"FCCA",label:"Chartered",c:C4},
-    {val:"6",label:"Apps Built",c:C1},
-    {val:"3",label:"Countries",c:C2},
+    {val:"13+",label:"Years Finance",c:C1},
+    {val:"Zero",label:"Audit Findings",c:C2},
   ];
   return <section id="about" style={{position:"relative",minHeight:"100vh",display:"flex",flexDirection:"column",justifyContent:"center",padding:"120px 32px 80px",maxWidth:1280,margin:"0 auto",zIndex:2,opacity:v?1:0,transform:v?"none":"translateY(40px)",transition:"all 0.9s cubic-bezier(0.16,1,0.3,1)"}}>
     <div style={{display:"flex",alignItems:"center",gap:48,flexWrap:"wrap"}}>
@@ -313,18 +312,21 @@ function Hero(){
         <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:18}}>
           <div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"5px 14px",borderRadius:20,background:`linear-gradient(135deg,${C1}09,${C2}06)`,border:`1px solid ${C1}38`,animation:"opptyPulse 3s ease infinite"}}>
             <span style={{width:7,height:7,borderRadius:"50%",background:C1,boxShadow:`0 0 10px ${C1}`}}/>
-            <span style={{fontSize:9,letterSpacing:"2.5px",textTransform:"uppercase",color:C1,...O,fontWeight:800}}>Open to AI · Full-Stack · FinTech Roles</span>
+            <span style={{fontSize:9,letterSpacing:"2.5px",textTransform:"uppercase",color:C1,...O,fontWeight:800}}>Open to Finance Leadership & Transformation Roles</span>
           </div>
         </div>
 
         <h1 className="glitch-text" style={{...G,fontWeight:900,fontSize:"clamp(48px,7vw,92px)",lineHeight:0.92,color:"#e8f4f8",marginBottom:12,letterSpacing:"-2px"}}>Luiz Gonzales</h1>
 
         <p style={{...O,fontSize:11,letterSpacing:"5px",textTransform:"uppercase",color:"rgba(200,225,240,0.42)",marginBottom:24,fontWeight:500}}>
-          FCCA <span style={{color:C1}}>·</span> Finance Leader <span style={{color:C2}}>·</span> Software Engineer <span style={{color:C4}}>·</span> Norfolk, VA
+          FCCA <span style={{color:C1}}>·</span> Assistant Director of Finance <span style={{color:C2}}>·</span> Finance Transformation <span style={{color:C4}}>·</span> Norfolk, VA
         </p>
 
-        <p style={{...I,fontSize:16,lineHeight:1.9,color:"rgba(200,225,240,0.68)",maxWidth:580,fontWeight:400,marginBottom:32}}>
-          Chartered accountant with <strong style={{color:C1}}>13+ years managing $80M+ operations</strong> across healthcare, real estate, and international markets — who also <strong style={{color:C2}}>builds production AI software</strong> to solve the problems finance teams face every day.
+        <p style={{...I,fontSize:16,lineHeight:1.9,color:"rgba(200,225,240,0.68)",maxWidth:580,fontWeight:400,marginBottom:12}}>
+          Chartered finance leader with <strong style={{color:C1}}>13+ years directing $80M+ operations</strong> across healthcare, real estate, and international markets — delivering clean audits, disciplined reporting, and measurable financial outcomes.
+        </p>
+        <p style={{...I,fontSize:14,lineHeight:1.8,color:"rgba(200,225,240,0.45)",maxWidth:580,fontWeight:400,marginBottom:32}}>
+          Rare differentiator: leverages <strong style={{color:C2}}>automation, systems design, and AI-enabled workflows</strong> to enhance financial operations and outperform conventional approaches.
         </p>
 
         <div className="stats-grid" style={{display:"grid",gridTemplateColumns:"repeat(6,1fr)",gap:10,marginBottom:36}}>
@@ -356,11 +358,9 @@ function Journey(){
     {flag:"🇺🇸",country:"Norfolk, VA",sub:"U.S. Citizen · Now",accent:C1},
   ];
   const values=[
-    {icon:"⚡",text:"Root-cause problem solver — fix the system, not the symptom. Prevent it from happening again."},
-    {icon:"🎯",text:"The person colleagues call for urgent, complicated situations — then teaches everyone else after."},
-    {icon:"📚",text:"Stays humble knowing there's always more to learn — absorbs something new every single day."},
-    {icon:"🤝",text:"Team-first mindset with the ability to execute independently when needed."},
-    {icon:"🌍",text:"Shaped by three countries, four industries, and a drive to bring real value everywhere he goes."},
+    {icon:"⚡",text:"Root-cause problem solver — fixes the system, not just the symptom."},
+    {icon:"🎯",text:"The person colleagues call for urgent, complicated situations — then ensures it never recurs."},
+    {icon:"🤝",text:"Team-first mindset with the ability to lead independently when the moment demands it."},
   ];
   return <section id="journey" ref={ref} className={`vis-in${vis?" visible":""}`} style={{padding:"80px 32px 60px",maxWidth:1280,margin:"0 auto",zIndex:2,position:"relative"}}>
     <SL text="Story"/>
@@ -379,11 +379,8 @@ function Journey(){
             </React.Fragment>
           ))}
         </div>
-        <p style={{...I,fontSize:14.5,color:"rgba(200,225,240,0.7)",lineHeight:1.9,marginBottom:16}}>
-          Originally from the <strong style={{color:C2}}>Philippines</strong>, I built my career across <strong style={{color:C4}}>16 years in Dubai</strong> before settling in <strong style={{color:C1}}>Norfolk, Virginia</strong> as a newly naturalized American citizen. My path has been shaped by resilience — a turbulent beginning became the foundation for someone who doesn't just survive challenges, but dismantles them at the root.
-        </p>
         <p style={{...I,fontSize:14.5,color:"rgba(200,225,240,0.7)",lineHeight:1.9,marginBottom:20}}>
-          Across three countries and four industries, I reached the top of every room I entered — finance director, trusted advisor, lead problem solver. When I saw the gaps in the tools finance teams relied on, I didn't wait for someone else to fix them. I taught myself to code and built the solutions myself.
+          From the <strong style={{color:C2}}>Philippines</strong> to <strong style={{color:C4}}>16 years in Dubai</strong> to <strong style={{color:C1}}>Norfolk, Virginia</strong> as a naturalized American citizen — a path shaped by resilience and adaptability across three countries, four industries, and continuously complex environments. Across every role, I reached the top of every room I entered: finance director, trusted advisor, lead problem solver. Wherever I found gaps in how finance teams operated, I built the solutions to close them.
         </p>
         <div style={{padding:"16px 20px",borderRadius:10,background:`linear-gradient(135deg,${C1}07,${C2}05)`,border:`1px solid ${C1}1e`,backdropFilter:"blur(8px)"}}>
           <p style={{...I,fontSize:14,color:"rgba(200,225,240,0.55)",fontStyle:"italic",lineHeight:1.7,margin:0}}>
@@ -428,7 +425,7 @@ function CareerTimeline(){
   return <section id="career" ref={ref} className={`vis-in${vis?" visible":""}`} style={{padding:"80px 32px 100px",maxWidth:1280,margin:"0 auto",zIndex:2,position:"relative"}}>
     <SL text="Experience"/>
     <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:10,letterSpacing:"-0.5px"}}>Finance Career</h2>
-    <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:540,lineHeight:1.7,marginBottom:44,fontWeight:400}}>13+ years across healthcare, real estate, and international markets — from Dubai to Virginia.</p>
+    <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:580,lineHeight:1.7,marginBottom:44,fontWeight:400}}>13+ years of progressive finance leadership across $80M+ healthcare operations, real estate investment, and international multi-entity environments — from Dubai to Virginia.</p>
     <div style={{position:"relative"}}>
       <div style={{position:"absolute",left:19,top:0,bottom:0,width:2,background:`linear-gradient(180deg,${C1}55,${C2}40,${C4}45,${C3}38)`,borderRadius:2}}/>
       {CAREER.map((job,i)=>(
@@ -529,9 +526,9 @@ function Skills(){
   const ref=useRef(null),[vis,setVis]=useState(false);
   useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setVis(true)},{threshold:0.05});if(ref.current)o.observe(ref.current);return()=>o.disconnect();},[]);
   return <section id="skills" ref={ref} className={`vis-in${vis?" visible":""}`} style={{padding:"80px 32px 100px",maxWidth:1280,margin:"0 auto",zIndex:2,position:"relative"}}>
-    <SL text="Skills"/>
-    <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:10,letterSpacing:"-0.5px"}}>Skills & Technologies</h2>
-    <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:540,lineHeight:1.7,marginBottom:36}}>Finance domain depth + software engineering breadth — a rare combination.</p>
+    <SL text="Capabilities"/>
+    <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:10,letterSpacing:"-0.5px"}}>Core Capabilities</h2>
+    <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:540,lineHeight:1.7,marginBottom:36}}>Deep finance leadership expertise, reinforced by automation and systems capability that most finance professionals don't carry.</p>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(270px,1fr))",gap:14}}>
       {Object.entries(SKILLS).map(([cat,skills],ci)=>(
         <div key={cat} style={{padding:22,borderRadius:12,background:"rgba(4,10,22,0.85)",border:`1.5px solid ${NC[ci]}45`,backdropFilter:"blur(16px)",boxShadow:`0 4px 30px rgba(0,0,0,0.5),0 0 20px ${NC[ci]}0c`}}>
@@ -558,11 +555,11 @@ function Contact(){
   return <section id="contact" ref={ref} className={`vis-in${vis?" visible":""}`} style={{padding:"80px 32px 130px",maxWidth:1280,margin:"0 auto",zIndex:2,position:"relative"}}>
     <div style={{textAlign:"center",padding:"60px 36px",borderRadius:20,background:"rgba(4,10,22,0.88)",border:`1.5px solid ${C1}18`,backdropFilter:"blur(20px)",boxShadow:`0 8px 60px rgba(0,0,0,0.55),0 0 40px ${C1}06`}}>
       <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",fontWeight:700,color:"#e8f4f8",marginBottom:8,letterSpacing:"-0.5px"}}>Let's Connect</h2>
-      <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.55)",maxWidth:480,margin:"0 auto 10px",lineHeight:1.75}}>
-        Whether you need a finance leader, a software engineer, or someone who is both — I bring real value from day one.
+      <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.55)",maxWidth:520,margin:"0 auto 10px",lineHeight:1.75}}>
+        I'm currently exploring senior finance, accounting, and finance transformation opportunities where I can bring strong financial leadership, disciplined reporting, and technology-enabled process improvements.
       </p>
       <p style={{...I,fontSize:13,color:"rgba(200,225,240,0.32)",maxWidth:480,margin:"0 auto 36px",lineHeight:1.6}}>
-        FCCA · 13+ Years Finance · AI-Native Developer · Open to opportunities
+        FCCA · Assistant Director of Finance · 13+ Years · Multi-Entity Healthcare & International
       </p>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(170px,1fr))",gap:14,maxWidth:600,margin:"0 auto"}}>
         {L.map((x,i)=>{
@@ -578,27 +575,54 @@ function Contact(){
   </section>
 }
 
+function Achievements(){
+  const ref=useRef(null),[vis,setVis]=useState(false);
+  useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setVis(true)},{threshold:0.05});if(ref.current)o.observe(ref.current);return()=>o.disconnect();},[]);
+  const items=[
+    {metric:"$800K+",detail:"Recovered from $3M in unbilled revenue, via an automated revenue model achieving >92% estimate-to-actual accuracy",c:C1},
+    {metric:"5-Day",detail:"Month-end close achieved and maintained while ensuring full GAAP compliance across all reconciliations and journal entries",c:C2},
+    {metric:"Zero",detail:"Audit findings across all fiscal years — unqualified opinions delivered consistently throughout tenure",c:C3},
+    {metric:"$80M",detail:"Annual operating budget overseen as Interim Finance Director, including full team leadership and executive reporting",c:C4},
+    {metric:"30%",detail:"Reduction in construction payment delays through vendor payment and cost-control process improvements",c:C2},
+    {metric:"15%",detail:"Reduction in reporting cycle time through enterprise Tableau and Power BI dashboards deployed as primary executive tools",c:C1},
+  ];
+  return <section ref={ref} className={`vis-in${vis?" visible":""}`} style={{padding:"20px 32px 80px",maxWidth:1280,margin:"0 auto",zIndex:2,position:"relative"}}>
+    <SL text="Impact"/>
+    <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:10,letterSpacing:"-0.5px"}}>Key Achievements</h2>
+    <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:540,lineHeight:1.7,marginBottom:36}}>Measurable outcomes delivered across $80M healthcare operations, multi-entity environments, and international markets.</p>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:14}}>
+      {items.map((item,i)=>(
+        <div key={i} style={{display:"flex",gap:18,alignItems:"flex-start",padding:"20px 22px",borderRadius:12,background:"rgba(4,10,22,0.85)",border:`1.5px solid ${item.c}38`,backdropFilter:"blur(16px)",boxShadow:`0 4px 30px rgba(0,0,0,0.5),0 0 20px ${item.c}09`,opacity:vis?1:0,transform:vis?"none":"translateY(20px)",transition:`opacity 0.5s ${i*0.07}s,transform 0.5s ${i*0.07}s`}}>
+          <div style={{...O,fontSize:22,fontWeight:900,color:item.c,lineHeight:1,flexShrink:0,textShadow:`0 0 16px ${item.c}60`,minWidth:60}}>{item.metric}</div>
+          <div style={{...I,fontSize:13,color:"rgba(200,225,240,0.72)",lineHeight:1.6,fontWeight:500}}>{item.detail}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+}
+
 function App(){
   const [active,setActive]=useState("about");
   useEffect(()=>{
-    const ids=["about","journey","career","projects","skills","contact"];
+    const ids=["about","career","projects","skills","journey","contact"];
     const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)}),{rootMargin:"-40% 0px -40% 0px"});
     ids.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});return()=>obs.disconnect();
   },[]);
   return <div style={{position:"relative",zIndex:2}}>
     <Nav active={active}/>
     <Hero/>
-    <Journey/>
+    <Achievements/>
     <CareerTimeline/>
     <section id="projects" style={{padding:"60px 32px 100px",maxWidth:1280,margin:"0 auto",position:"relative",zIndex:2}}>
-      <SL text="Portfolio"/>
-      <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:12,letterSpacing:"-0.5px"}}>Software I've Built</h2>
-      <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:560,lineHeight:1.7,marginBottom:40}}>Every project solves a real problem I encountered in finance — built with production-grade code.</p>
+      <SL text="Transformation"/>
+      <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:12,letterSpacing:"-0.5px"}}>Finance Automation & Transformation Initiatives</h2>
+      <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:560,lineHeight:1.7,marginBottom:40}}>Solutions developed to enhance financial operations, reporting, controls, and decision-making through automation and systems design — each addressing a real problem encountered in practice.</p>
       <div className="pgrid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:18}}>
         {PROJECTS.map((p,i)=><Card key={p.id} p={p} i={i}/>)}
       </div>
     </section>
     <Skills/>
+    <Journey/>
     <Contact/>
   </div>
 }

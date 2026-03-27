@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Luiz Gonzales | Finance Leader & Software Engineer</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{
+  background:#060f1a;
+  background-image:linear-gradient(160deg,#060f1a 0%,#091829 35%,#0b1f38 65%,#0d2444 100%);
+  background-attachment:fixed;margin:0;
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  color:#e8f4f8;overflow-x:hidden;-webkit-font-smoothing:antialiased
+}
+#grid-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:linear-gradient(rgba(0,200,232,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,232,0.018) 1px,transparent 1px);
+  background-size:60px 60px}
+::selection{background:rgba(0,200,232,0.22);color:#fff}
+canvas#pcanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+@keyframes glitch{
+  0%,100%{text-shadow:2px 0 #00c8e8,-2px 0 #0fb5a0;transform:translate(0)}
+  20%{text-shadow:-3px 0 #00c8e8,3px 0 #0fb5a0;transform:translate(-1px,1px)}
+  40%{text-shadow:3px 0 #00c8e8,-3px 0 #0fb5a0;transform:translate(1px,-1px)}
+  60%{text-shadow:-2px 0 #0fb5a0,2px 0 #00c8e8;transform:translate(0)}
+  80%{text-shadow:2px 0 #0fb5a0,-2px 0 #00c8e8;transform:translate(-1px,0)}
+}
+@keyframes neonPulse{
+  0%,100%{box-shadow:0 0 12px #00c8e8,0 0 30px rgba(0,200,232,0.38),0 0 60px rgba(0,200,232,0.12),inset 0 0 12px rgba(0,200,232,0.06)}
+  50%{box-shadow:0 0 22px #00c8e8,0 0 55px rgba(0,200,232,0.48),0 0 90px rgba(0,200,232,0.18),inset 0 0 22px rgba(0,200,232,0.10)}
+}
+@keyframes orbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes opptyPulse{
+  0%,100%{box-shadow:0 0 8px rgba(0,200,232,0.22),0 0 16px rgba(0,200,232,0.07)}
+  50%{box-shadow:0 0 18px rgba(0,200,232,0.44),0 0 36px rgba(0,200,232,0.14)}
+}
+@keyframes cursorFade{
+  0%{opacity:0.8;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(0)}
+}
+@keyframes timelineDrop{from{height:0}to{height:100%}}
+
+.glitch-text{animation:glitch 4s infinite;animation-timing-function:steps(2,end)}
+.glitch-text:hover{animation-duration:0.3s}
+.neon-btn{animation:neonPulse 2.5s ease infinite;transition:transform 0.2s,letter-spacing 0.2s,background 0.25s}
+.neon-btn:hover{transform:scale(1.07);letter-spacing:4px;background:rgba(0,200,232,0.08)!important}
+
+.glass-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;
+  background:rgba(4,9,20,0.82);backdrop-filter:blur(22px) saturate(200%);
+  -webkit-backdrop-filter:blur(22px) saturate(200%);
+  border-bottom:1px solid rgba(0,200,232,0.13);
+  box-shadow:0 2px 50px rgba(0,0,0,0.6),0 1px 0 rgba(0,200,232,0.06)}
+
+.card-3d{transition:transform 0.4s cubic-bezier(0.03,0.98,0.52,0.99);transform-style:preserve-3d;will-change:transform}
+.card-flip-inner{transition:transform 0.65s cubic-bezier(0.4,0,0.2,1);transform-style:preserve-3d;position:relative;width:100%;height:100%}
+.card-flip-inner.flipped{transform:rotateY(180deg)}
+.card-front,.card-back{backface-visibility:hidden;position:absolute;inset:0;border-radius:16px;overflow:hidden}
+.card-back{transform:rotateY(180deg);padding:22px;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
+.card-front{transition:box-shadow 0.35s,border-color 0.35s}
+.vis-in{opacity:0;transform:translateY(28px);transition:opacity 0.6s,transform 0.6s cubic-bezier(0.16,1,0.3,1)}
+.vis-in.visible{opacity:1;transform:none}
+.skill-tag:hover{filter:brightness(1.25)}
+
+.stat-card{transition:transform 0.2s,box-shadow 0.2s}
+.stat-card:hover{transform:translateY(-3px)}
+.career-card{transition:box-shadow 0.3s,border-color 0.3s}
+.career-card:hover{border-color:inherit!important}
+
+@media(max-width:900px){.pgrid{grid-template-columns:repeat(2,1fr)!important}.journey-grid{grid-template-columns:1fr!important}}
+@media(max-width:640px){
+  .pgrid{grid-template-columns:1fr!important}
+  section{padding-left:16px!important;padding-right:16px!important}
+  .glass-nav>div>div{gap:10px!important}
+  .glass-nav a{font-size:7px!important}
+  .journey-grid{grid-template-columns:1fr!important}
+  .stats-grid{grid-template-columns:repeat(3,1fr)!important}
+}
+</style>
+</head>
+<body>
+<canvas id="pcanvas"></canvas>
+<div id="grid-overlay"></div>
+<div id="root"></div>
+
+<script>
+/* ── Cursor trail ── */
+(function(){
+  var last=0;
+  document.addEventListener('mousemove',function(e){
+    var now=Date.now();if(now-last<20)return;last=now;
+    var dot=document.createElement('div');
+    var primary=Math.random()>0.5;var size=Math.random()*3.5+1.5;
+    dot.style.cssText='position:fixed;pointer-events:none;border-radius:50%;z-index:9999;'
+      +'left:'+e.clientX+'px;top:'+e.clientY+'px;width:'+size+'px;height:'+size+'px;'
+      +'transform:translate(-50%,-50%);background:'+(primary?'#00c8e8':'#0fb5a0')+';'
+      +'box-shadow:0 0 '+(size*3)+'px '+(primary?'rgba(0,200,232,0.85)':'rgba(15,181,160,0.85)')+';'
+      +'animation:cursorFade 0.55s ease-out forwards;';
+    document.body.appendChild(dot);
+    setTimeout(function(){if(dot.parentNode)dot.parentNode.removeChild(dot)},600);
+  });
+})();
+
+/* ── Particle canvas ── */
+(function(){
+var c=document.getElementById("pcanvas"),ctx=c.getContext("2d"),w,h,mx=0,my=0,LINK=130,COUNT=108;
+function sz(){w=c.width=innerWidth;h=c.height=Math.max(document.body.scrollHeight,innerHeight*10)}
+sz();
+var P=[];for(var i=0;i<COUNT;i++)P.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,r:Math.random()*1.4+0.5,hue:Math.random()>0.5?192:173,base_o:Math.random()*0.4+0.15});
+document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY+window.scrollY});
+(function draw(){
+  ctx.clearRect(0,0,w,h);var sy=window.scrollY;
+  for(var i=0;i<P.length;i++){
+    var p=P[i];var dx=mx-p.x,dy=my-p.y,dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<220&&dist>1){p.vx+=dx/dist*0.018;p.vy+=dy/dist*0.018;}
+    p.x+=p.vx;p.y+=p.vy;p.vx*=0.99;p.vy*=0.99;
+    if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+    if(p.y<sy-100||p.y>sy+innerHeight+100)continue;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    var col=p.hue===192?"0,200,232":"15,181,160";
+    ctx.fillStyle="rgba("+col+","+p.base_o+")";ctx.fill();
+    for(var j=i+1;j<P.length;j++){
+      var q=P[j];if(q.y<sy-100||q.y>sy+innerHeight+100)continue;
+      var ddx=p.x-q.x,ddy=p.y-q.y,dd=Math.sqrt(ddx*ddx+ddy*ddy);
+      if(dd<LINK){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
+        ctx.strokeStyle="rgba("+col+","+(0.09*(1-dd/LINK))+")";ctx.lineWidth=0.6;ctx.stroke();}
+    }
+  }
+  requestAnimationFrame(draw);
+})();
+addEventListener("resize",sz);
+setTimeout(sz,900);
+setTimeout(sz,2500);
+})();
+</script>
+
+<script type="text/babel">
+const {useState,useEffect,useRef,useCallback}=React;
+const G={fontFamily:"Georgia,'Times New Roman',serif"};
+const O={fontFamily:"'Orbitron',sans-serif"};
+const I={fontFamily:"'Inter',system-ui,sans-serif"};
+
+/* ── Oil-paint palette ──────────────────────────────────────────────────
+   Prussian Blue + Cerulean + Viridian + Sap Green + Cobalt + Flake White
+   Mixed the way you'd build glazes on canvas — each hue a deliberate mix.
+   C1 = Prussian × Cerulean × White  → clear cerulean-sky
+   C2 = Viridian × Cerulean          → deep teal-turquoise
+   C3 = Sap Green × Viridian         → grounded sage-teal
+   C4 = Cobalt Blue × Flake White    → rich periwinkle-steel
+──────────────────────────────────────────────────────────────────────── */
+const C1="#00c8e8"; // cerulean-sky
+const C2="#0fb5a0"; // viridian-teal
+const C3="#52b78e"; // sap-viridian
+const C4="#3a86de"; // cobalt-periwinkle
+
+// ─── DATA ──────────────────────────────────────────────────────────────────
+
+const MOCKUPS={
+jobflow:`<svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="200" rx="6" fill="#04101e"/><rect x="10" y="10" width="90" height="7" rx="3" fill="${C1}" opacity=".22"/><rect x="380" y="8" width="90" height="22" rx="5" fill="${C1}" opacity=".10" stroke="${C1}" stroke-width=".5"/><text x="398" y="23" fill="${C1}" font-size="8" font-family="Orbitron" opacity=".8">Auto Apply</text><rect x="10" y="28" width="225" height="70" rx="6" fill="#071626" stroke="${C1}" stroke-width=".5" opacity=".8"/><text x="20" y="44" fill="#e8f4f8" font-size="8.5" font-family="Inter" font-weight="600" opacity=".7">Software Engineer — Acme Corp</text><rect x="20" y="50" width="140" height="3" rx="1" fill="#e8f4f8" opacity=".05"/><text x="20" y="72" fill="${C1}" font-size="7" font-weight="700" opacity=".7">ATS Score</text><rect x="20" y="76" width="190" height="5" rx="2" fill="#081929"/><rect x="20" y="76" width="165" height="5" rx="2" fill="${C1}" opacity=".65"/><text x="190" y="81" fill="${C1}" font-size="7" font-weight="800" opacity=".9">87%</text><rect x="245" y="28" width="225" height="70" rx="6" fill="#071626" stroke="${C1}" stroke-width=".3" opacity=".35"/><text x="255" y="44" fill="#e8f4f8" font-size="8.5" font-family="Inter" opacity=".4">Data Analyst — TechStart</text><rect x="245" y="108" width="225" height="82" rx="6" fill="#071626" stroke="${C1}" stroke-width=".3" opacity=".25"/><text x="255" y="124" fill="#e8f4f8" font-size="8" opacity=".3">Answer Bank</text><rect x="10" y="108" width="225" height="82" rx="6" fill="#071626" stroke="${C2}" stroke-width=".3" opacity=".4"/><text x="20" y="124" fill="${C2}" font-size="8" font-weight="600" opacity=".5">Chrome Extension</text><rect x="20" y="132" width="180" height="4" rx="2" fill="#e8f4f8" opacity=".04"/><rect x="20" y="140" width="140" height="4" rx="2" fill="#e8f4f8" opacity=".03"/></svg>`,
+sop:`<svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="200" rx="6" fill="#04101e"/><text x="10" y="22" fill="${C2}" font-size="10" font-family="Orbitron" font-weight="700" opacity=".6">SOP Generator</text><rect x="10" y="32" width="225" height="158" rx="6" fill="#071626" stroke="${C2}" stroke-width=".5" opacity=".7"/><text x="20" y="50" fill="#e8f4f8" font-size="7.5" font-weight="600" opacity=".5">Process Name</text><rect x="20" y="54" width="200" height="18" rx="4" fill="#061320" stroke="${C2}" stroke-width=".3"/><text x="20" y="88" fill="#e8f4f8" font-size="7.5" font-weight="600" opacity=".5">Framework</text><rect x="20" y="94" width="80" height="16" rx="4" fill="${C2}" opacity=".12" stroke="${C2}" stroke-width=".5"/><text x="30" y="105" fill="${C2}" font-size="7" font-weight="700" opacity=".9">SOX/COSO</text><rect x="106" y="94" width="60" height="16" rx="4" fill="#061320" stroke="${C2}" stroke-width=".3"/><text x="112" y="105" fill="#e8f4f8" font-size="7" opacity=".3">ISO 9001</text><rect x="20" y="124" width="200" height="56" rx="4" fill="#061320" stroke="${C2}" stroke-width=".3"/><text x="28" y="140" fill="#e8f4f8" font-size="7" opacity=".2">Describe your process...</text><rect x="245" y="32" width="225" height="158" rx="6" fill="#071626" stroke="${C1}" stroke-width=".3" opacity=".5"/><text x="255" y="50" fill="${C1}" font-size="8" font-weight="700" opacity=".6">Output Preview</text><rect x="255" y="58" width="170" height="3" rx="1" fill="#e8f4f8" opacity=".05"/><rect x="255" y="66" width="200" height="3" rx="1" fill="#e8f4f8" opacity=".04"/><text x="255" y="90" fill="${C1}" font-size="7" font-weight="600" opacity=".5">RACI Matrix</text><rect x="255" y="96" width="200" height="24" rx="4" fill="#061320"/><text x="255" y="134" fill="${C1}" font-size="7" font-weight="600" opacity=".5">Risk Register</text><rect x="255" y="140" width="200" height="20" rx="4" fill="#061320"/></svg>`,
+pact:`<svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="200" rx="6" fill="#04101e"/><text x="10" y="20" fill="#e8f4f8" font-size="10" font-family="Inter" font-weight="700" opacity=".6">Controls Dashboard</text><rect x="10" y="30" width="112" height="44" rx="6" fill="#071626" stroke="${C3}" stroke-width=".6"/><text x="22" y="50" fill="${C3}" font-size="17" font-family="Orbitron" font-weight="800" opacity=".8">12</text><text x="22" y="62" fill="#e8f4f8" font-size="6.5" font-weight="600" opacity=".35" letter-spacing="1">PROCESSES</text><rect x="130" y="30" width="112" height="44" rx="6" fill="#071626" stroke="${C1}" stroke-width=".4"/><text x="142" y="50" fill="${C1}" font-size="17" font-family="Orbitron" font-weight="800" opacity=".6">34</text><text x="142" y="62" fill="#e8f4f8" font-size="6.5" font-weight="600" opacity=".3" letter-spacing="1">CONTROLS</text><rect x="250" y="30" width="112" height="44" rx="6" fill="#071626" stroke="${C4}" stroke-width=".4"/><text x="262" y="50" fill="${C4}" font-size="17" font-family="Orbitron" font-weight="800" opacity=".6">5</text><text x="262" y="62" fill="#e8f4f8" font-size="6.5" font-weight="600" opacity=".3" letter-spacing="1">DEFICIENCIES</text><rect x="370" y="30" width="100" height="44" rx="6" fill="#071626" stroke="${C2}" stroke-width=".4"/><text x="382" y="50" fill="${C2}" font-size="17" font-family="Orbitron" font-weight="800" opacity=".6">2</text><text x="382" y="62" fill="#e8f4f8" font-size="6.5" font-weight="600" opacity=".3" letter-spacing="1">OPEN</text><rect x="10" y="84" width="460" height="106" rx="6" fill="#071626" stroke="${C3}" stroke-width=".3" opacity=".5"/><text x="22" y="102" fill="#e8f4f8" font-size="7.5" font-weight="700" opacity=".4">Recent Processes</text><rect x="22" y="110" width="436" height="1" fill="#e8f4f8" opacity=".04"/><rect x="22" y="120" width="160" height="4" rx="2" fill="#e8f4f8" opacity=".07"/><text x="400" y="124" fill="${C3}" font-size="6.5" font-weight="600" opacity=".5">3 ctrl</text><rect x="22" y="134" width="120" height="4" rx="2" fill="#e8f4f8" opacity=".05"/><text x="400" y="138" fill="${C3}" font-size="6.5" font-weight="600" opacity=".4">5 ctrl</text><rect x="22" y="148" width="180" height="4" rx="2" fill="#e8f4f8" opacity=".04"/><text x="400" y="152" fill="${C4}" font-size="6.5" font-weight="600" opacity=".4">1 open</text></svg>`,
+procurement:`<svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="200" rx="6" fill="#04101e"/><text x="10" y="20" fill="${C4}" font-size="9" font-family="Orbitron" font-weight="700" opacity=".7">Procurement Checklist</text><rect x="10" y="30" width="460" height="30" rx="5" fill="#071626" stroke="${C4}" stroke-width=".4"/><text x="20" y="42" fill="#e8f4f8" font-size="7" font-weight="600" opacity=".4">Amount</text><rect x="64" y="36" width="70" height="14" rx="3" fill="#061320" stroke="${C4}" stroke-width=".3"/><text x="70" y="46" fill="${C4}" font-size="7" font-weight="700" opacity=".7">$42,000</text><text x="160" y="42" fill="#e8f4f8" font-size="7" font-weight="600" opacity=".4">Fund</text><rect x="186" y="36" width="90" height="14" rx="3" fill="#061320" stroke="${C4}" stroke-width=".3"/><text x="192" y="46" fill="${C4}" font-size="7" font-weight="700" opacity=".7">Federal Funds</text><rect x="10" y="68" width="460" height="122" rx="6" fill="#071626" stroke="${C4}" stroke-width=".3" opacity=".6"/><text x="22" y="86" fill="${C4}" font-size="7.5" font-weight="700" opacity=".6">Required (§6.3)</text><g font-size="7"><rect x="22" y="94" width="11" height="11" rx="2" fill="${C4}" opacity=".18" stroke="${C4}" stroke-width=".6"/><text x="27" y="102" fill="${C4}" font-size="8">✓</text><text x="38" y="102" fill="#e8f4f8" font-weight="500" opacity=".55">Min 3 quotes obtained</text><text x="340" y="102" fill="${C4}" font-size="6" opacity=".4">§6.3.2(1)</text><rect x="22" y="112" width="11" height="11" rx="2" fill="${C4}" opacity=".18" stroke="${C4}" stroke-width=".6"/><text x="27" y="120" fill="${C4}" font-size="8">✓</text><text x="38" y="120" fill="#e8f4f8" font-weight="500" opacity=".55">Cost/price analysis performed</text><text x="340" y="120" fill="${C4}" font-size="6" opacity=".4">§6.3.2(4)</text><rect x="22" y="130" width="11" height="11" rx="2" fill="none" stroke="${C4}" stroke-width=".5" opacity=".3"/><text x="38" y="138" fill="#e8f4f8" font-weight="500" opacity=".3">SAM.gov debarment check</text><text x="340" y="138" fill="${C4}" font-size="6" opacity=".3">§9</text><rect x="22" y="148" width="11" height="11" rx="2" fill="none" stroke="${C4}" stroke-width=".5" opacity=".25"/><text x="38" y="156" fill="#e8f4f8" font-weight="500" opacity=".25">Executed contract on file</text><text x="340" y="156" fill="${C4}" font-size="6" opacity=".25">§6.3.3(1)</text><rect x="22" y="166" width="11" height="11" rx="2" fill="none" stroke="${C4}" stroke-width=".5" opacity=".2"/><text x="38" y="174" fill="#e8f4f8" font-weight="500" opacity=".2">Proof of payment retained</text><text x="340" y="174" fill="${C4}" font-size="6" opacity=".2">§6.3.3(8)</text></g></svg>`,
+macros:`<svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="200" rx="6" fill="#04101e"/><text x="10" y="18" fill="${C2}" font-size="8.5" font-family="Orbitron" font-weight="700" opacity=".6">VBA Reconciliation</text><rect x="10" y="26" width="460" height="14" rx="3" fill="#071626"/><rect x="12" y="28" width="46" height="10" rx="2" fill="${C2}" opacity=".14" stroke="${C2}" stroke-width=".5"/><text x="18" y="36" fill="${C2}" font-size="6" font-weight="700" opacity=".8">AR Detail</text><rect x="62" y="28" width="46" height="10" rx="2" fill="#061320"/><text x="68" y="36" fill="#e8f4f8" font-size="6" opacity=".3">AP Aging</text><rect x="10" y="46" width="460" height="100" rx="5" fill="#050e1a" stroke="${C2}" stroke-width=".3"/><g fill="#e8f4f8" font-size="6.5" font-weight="700" opacity=".3" letter-spacing=".5"><text x="18" y="60">CUSTOMER</text><text x="140" y="60">ID</text><text x="230" y="60">BALANCE</text><text x="330" y="60">AGING</text><text x="410" y="60">STATUS</text></g><rect x="14" y="64" width="450" height="1" fill="#e8f4f8" opacity=".04"/><g font-size="6.5" font-weight="500"><text x="18" y="78" fill="#e8f4f8" opacity=".45">Metro Health</text><text x="140" y="78" fill="#e8f4f8" opacity=".3">MH-1024</text><text x="230" y="78" fill="#e8f4f8" opacity=".45">$12,450</text><text x="330" y="78" fill="#e8f4f8" opacity=".45">$12,450</text><rect x="408" y="72" width="34" height="10" rx="3" fill="${C3}" opacity=".14" stroke="${C3}" stroke-width=".5"/><text x="414" y="80" fill="${C3}" font-weight="700" opacity=".8">PASS</text></g><g font-size="6.5" font-weight="500"><text x="18" y="94" fill="#e8f4f8" opacity=".35">Valley Corp</text><text x="140" y="94" fill="#e8f4f8" opacity=".25">VC-3891</text><text x="230" y="94" fill="#e8f4f8" opacity=".35">$8,200</text><text x="330" y="94" fill="#e8f4f8" opacity=".35">$8,200</text><rect x="408" y="88" width="34" height="10" rx="3" fill="${C3}" opacity=".10" stroke="${C3}" stroke-width=".4"/><text x="414" y="96" fill="${C3}" font-weight="700" opacity=".6">PASS</text></g><g font-size="6.5" font-weight="500"><text x="18" y="110" fill="#e8f4f8" opacity=".3">Oak Partners</text><text x="140" y="110" fill="#e8f4f8" opacity=".2">OP-0442</text><text x="230" y="110" fill="${C2}" opacity=".6">$3,100</text><text x="330" y="110" fill="${C2}" opacity=".6">$2,950</text><rect x="408" y="104" width="46" height="10" rx="3" fill="${C2}" opacity=".12" stroke="${C2}" stroke-width=".5"/><text x="414" y="112" fill="${C2}" font-weight="700" opacity=".8">VARIANCE</text></g><g font-size="6.5" font-weight="500"><text x="18" y="126" fill="#e8f4f8" opacity=".25">Summit LLC</text><text x="140" y="126" fill="#e8f4f8" opacity=".18">SL-7710</text><text x="230" y="126" fill="#e8f4f8" opacity=".2">$0.00</text><text x="330" y="126" fill="#e8f4f8" opacity=".15">—</text><rect x="408" y="120" width="40" height="10" rx="3" fill="${C1}" opacity=".08" stroke="${C1}" stroke-width=".4"/><text x="414" y="128" fill="${C1}" font-weight="700" opacity=".5">EXEMPT</text></g><rect x="10" y="154" width="225" height="36" rx="5" fill="#071626" stroke="${C2}" stroke-width=".3" opacity=".4"/><text x="20" y="170" fill="${C2}" font-size="7" font-weight="700" opacity=".45">Fuzzy Match: 85%</text><text x="20" y="182" fill="#e8f4f8" font-size="6.5" opacity=".2">Dual-dictionary lookup</text><rect x="245" y="154" width="225" height="36" rx="5" fill="#071626" stroke="${C3}" stroke-width=".3" opacity=".4"/><text x="255" y="170" fill="${C3}" font-size="7" font-weight="700" opacity=".45">3/4 checks passed</text><text x="255" y="182" fill="#e8f4f8" font-size="6.5" opacity=".2">1 variance flagged</text></svg>`,
+dash:`<svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="200" rx="6" fill="#04101e"/><text x="10" y="20" fill="${C1}" font-size="9" font-family="Orbitron" font-weight="700" opacity=".6">COA Command Center</text><rect x="10" y="30" width="150" height="48" rx="6" fill="#071626" stroke="${C1}" stroke-width=".5"/><text x="22" y="48" fill="${C1}" font-size="6.5" font-weight="700" opacity=".6" letter-spacing="1">ACCOUNTS</text><text x="22" y="66" fill="${C1}" font-size="20" font-family="Orbitron" font-weight="800" opacity=".7">247</text><rect x="168" y="30" width="150" height="48" rx="6" fill="#071626" stroke="${C3}" stroke-width=".4"/><text x="180" y="48" fill="${C3}" font-size="6.5" font-weight="700" opacity=".5" letter-spacing="1">COMPLIANT</text><text x="180" y="66" fill="${C3}" font-size="20" font-family="Orbitron" font-weight="800" opacity=".6">231</text><rect x="326" y="30" width="144" height="48" rx="6" fill="#071626" stroke="${C2}" stroke-width=".4"/><text x="338" y="48" fill="${C2}" font-size="6.5" font-weight="700" opacity=".5" letter-spacing="1">REVIEW</text><text x="338" y="66" fill="${C2}" font-size="20" font-family="Orbitron" font-weight="800" opacity=".6">16</text><rect x="10" y="86" width="300" height="104" rx="6" fill="#071626" stroke="${C1}" stroke-width=".3" opacity=".4"/><text x="22" y="104" fill="#e8f4f8" font-size="7.5" font-weight="700" opacity=".35">Compliance by Category</text><g transform="translate(28,115)"><rect x="0" y="40" width="28" height="55" rx="2" fill="${C1}" opacity=".22"/><rect x="36" y="25" width="28" height="70" rx="2" fill="${C1}" opacity=".18"/><rect x="72" y="10" width="28" height="85" rx="2" fill="${C1}" opacity=".14"/><rect x="108" y="30" width="28" height="65" rx="2" fill="${C3}" opacity=".14"/><rect x="144" y="50" width="28" height="45" rx="2" fill="${C4}" opacity=".12"/><rect x="180" y="60" width="28" height="35" rx="2" fill="${C2}" opacity=".12"/></g><rect x="318" y="86" width="152" height="104" rx="6" fill="#071626" stroke="${C1}" stroke-width=".3" opacity=".3"/><text x="330" y="104" fill="#e8f4f8" font-size="7.5" font-weight="700" opacity=".35">Status</text><circle cx="394" cy="148" r="28" fill="none" stroke="${C1}" stroke-width="3.5" opacity=".2" stroke-dasharray="140 36"/><circle cx="394" cy="148" r="28" fill="none" stroke="${C3}" stroke-width="3.5" opacity=".15" stroke-dasharray="36 140" stroke-dashoffset="-140"/><text x="382" y="152" fill="#e8f4f8" font-size="10" font-weight="800" opacity=".4">94%</text></svg>`
+};
+
+const PROJECTS=[
+{id:"jobflow",title:"JobFlow AI",cat:"Full-Stack · AI · Chrome Ext",neon:C1,mock:"jobflow",
+stack:["Python","FastAPI","React","Vite","SQLite","Claude API","Chrome MV3","SMTP","Fernet"],
+desc:"End-to-end job application platform: AI resume tailoring with ATS scoring, Chrome Extension auto-fill, multi-platform auto-apply queue with follow-up scheduling.",
+feats:["AI resume tailoring + real-time ATS scoring","Chrome Extension (MV3) answer bank auto-fill","Auto-apply queue with approval workflow","Adzuna & JSearch API aggregation","Encrypted credentials (Fernet)","Gmail SMTP follow-up scheduling"],
+arch:"FastAPI ↔ React SPA ↔ Chrome Extension · SQLite · Claude Haiku",impact:"~25 min → under 3 min per application."},
+{id:"sop",title:"SOP Intelligence",cat:"Next.js · TypeScript · AI",neon:C2,mock:"sop",
+stack:["Next.js 16","TypeScript","React 19","Tailwind 4","shadcn/ui","Claude SDK","Zod"],
+desc:"Enterprise app generating audit-ready SOPs and analyzing documents for compliance gaps — SOX/COSO, ISO 9001, ITIL 4.",
+feats:["Natural-language → full SOP with RACI, risk register","Compliance scoring with deficiency rankings","Framework-specific: SOX/COSO, ISO 9001, ITIL 4","Rate-limited API with Zod & auth"],
+arch:"Next.js App Router · Claude SDK · Zod · Rate limiter",impact:"Multi-day SOP drafting → 5-minute workflow."},
+{id:"pact",title:"PACT Controls",cat:"Full-Stack · AI · SOX/COSO",neon:C3,mock:"pact",
+stack:["Node.js","Express","React","Vite","Tailwind","SQLite","Claude AI"],
+desc:"Internal controls management — Claude AI generates process docs, suggests COSO controls, identifies deficiencies with remediation.",
+feats:["AI-generated process documentation","COSO/SOX control suggestions","Deficiency identification + remediation","Real-time controls dashboard"],
+arch:"Express API ↔ React SPA · Claude service · SQLite",impact:"Spreadsheet tracking → AI monitoring."},
+{id:"procurement",title:"GR Procurement",cat:"Power Apps · Federal",neon:C4,mock:"procurement",
+stack:["Power Apps","Power Fx","SharePoint","2 CFR 200"],
+desc:"Canvas app generating dynamic procurement checklists by threshold, funding source, and method — mapped to federal policy citations.",
+feats:["Threshold logic: micro → formal procurement","Policy citations (§6.2–§9)","Auto SAM.gov check for federal funds","CFO sole-source approval workflow"],
+arch:"Power Apps Canvas · ClearCollect · SharePoint",impact:"4-page paper checklist → error-preventing app."},
+{id:"macros",title:"Finance Automation",cat:"Excel VBA · Python",neon:C2,mock:"macros",
+stack:["Excel VBA","Python 3.13","python-docx","pdfminer","Salesforce","ADP"],
+desc:"Production VBA macros and Python scripts: multi-source reconciliation, fuzzy matching, Salesforce-to-ADP conversion.",
+feats:["AR Recon (834-line VBA): 5-check validation","Vendor Recon: 85% fuzzy matching","Equipment Reallocation: SF → ADP format","Report Transformer with combo validation"],
+arch:"VBA in .xlsm · Python scripts · Dictionary processing",impact:"Month-end close: 2+ days → under 30 min."},
+{id:"dash",title:"Finance Dashboards",cat:"HTML/JS · Data Viz",neon:C1,mock:"dash",
+stack:["HTML5","CSS3","JavaScript","Chart.js"],
+desc:"Lightweight web apps for finance teams — COA compliance, account tracking, ORR dashboard, bank reconciliation.",
+feats:["COA Compliance Command Center","Interactive account tracker","ORR Finance grant dashboard","Bank reconciliation tools"],
+arch:"Single-file HTML · Vanilla JS · Instant deploy",impact:"Instant compliance visibility, zero infrastructure."}
+];
+
+const CAREER=[
+{role:"Assistant Director of Finance",company:"Hampton University Proton Cancer Institute",location:"Hampton, VA",period:"Nov 2020 – Jan 2026",industry:"Healthcare · Proton Therapy",neon:C1,
+highlights:[
+  "Served as Interim Finance Director for two non-consecutive years — overseeing an $80M annual operating budget and leading a 6-person finance team",
+  "Discovered $3M in unbilled revenue and recovered $800K in cash over two years via an automated revenue model achieving >92% estimate-to-actual accuracy",
+  "Delivered unqualified audit opinions with zero findings across all fiscal years",
+  "Directed full ERP migration to Sage Intacct — AI/ML automated bill processing, bank API integrations, and migration of 3,000 fixed assets",
+  "Built enterprise Tableau & Power BI dashboards as primary executive reporting tools, reducing reporting cycle time by 15%",
+  "Accelerated month-end close to 5 business days while maintaining GAAP compliance across all reconciliations and journal entries"
+]},
+{role:"Senior Accountant",company:"Situation Solutions One, Inc.",location:"Virginia Beach, VA",period:"Feb 2020 – Nov 2020",industry:"Real Estate Investment",neon:C2,
+highlights:[
+  "Sole finance and accounting lead reporting directly to CEO — supported acquisition, renovation, rental, and capital deployment decisions",
+  "Built vendor payment, lien tracking, and cost-control processes — reduced construction payment delays by 30% in five months",
+  "Improved portfolio efficiency 10% through renovation cost analysis, rental yield modeling, and return profiling",
+  "Increased available operating cash by 10% through cash forecasting, scenario analysis, and spend management"
+]},
+{role:"General Accountant",company:"SCP Building Materials Trading Group",location:"Dubai, U.A.E.",period:"Jan 2018 – Feb 2020",industry:"Construction Materials · Distribution",neon:C4,
+highlights:[
+  "Managed full-cycle accounting for a group of trading entities — GL, AR/AP, bank reconciliations, inventory accounting, and month-end close",
+  "Implemented a cost-control system to monitor and reduce overhead expenditures, improving budget adherence across the group",
+  "Prepared consolidated IFRS-compliant financial statements under UAE statutory requirements with accurate inventory valuation",
+  "Streamlined AP/AR workflows, accelerating invoice turnaround and improving working capital efficiency"
+]},
+{role:"General Accountant",company:"SIG Middle East LLC",location:"Dubai, U.A.E.",period:"Jul 2015 – Dec 2017",industry:"Multinational · UK-Headquartered",neon:C3,
+highlights:[
+  "Supported Middle East arm of a UK-headquartered multinational in a diverse, multi-national environment",
+  "Improved period-end reporting timeliness by 20% through GL maintenance, AR/AP processing, and reconciliation discipline",
+  "Introduced process improvements across AP/AR and overhead cost-control, contributing to leaner operations",
+  "Supported IFRS-compliant reporting, UAE statutory requirements, and external audit preparation"
+]}
+];
+
+const SKILLS={
+"Finance & Accounting":["Financial Reporting","Month-End Close","Revenue Recognition","$80M Budget Mgmt","Audit & Assurance","Forecasting","AP/AR","Balance Sheet Recon","Technical Accounting"],
+"Enterprise Systems":["Sage Intacct","SAP","Oracle","QuickBooks","Microsoft Dynamics","Tableau","Power BI","HIPAA"],
+"AI & Software":["Claude API","Anthropic SDK","Prompt Engineering","AI-Augmented Dev","Python","FastAPI","React","Next.js"],
+"Compliance & Standards":["GAAP","IFRS","SOX/COSO","2 CFR 200","ISO 9001","ITIL 4","Internal Controls","UAE Statutory"],
+"Power Platform":["Power Apps","Power Automate","Power BI","Power Query","Power Pivot","Excel VBA/Macros","SharePoint"],
+"Dev Tools":["TypeScript","JavaScript","Tailwind CSS","Vite","Git","Vercel","VS Code","Windsurf","SQLite","Zod"]
+};
+
+const NC=[C1,C4,C2,C3,C1,C2];
+
+// ─── COMPONENTS ────────────────────────────────────────────────────────────
+
+function SL({text}){
+  return <div style={{display:"inline-flex",alignItems:"center",gap:8,marginBottom:4}}>
+    <span style={{width:28,height:2,background:`linear-gradient(90deg,${C1},transparent)`}}/>
+    <span style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:C1,...O,fontWeight:700}}>{text}</span>
+  </div>
+}
+
+function Nav({active}){
+  const links=["About","Journey","Career","Projects","Skills","Contact"];
+  return <nav className="glass-nav">
+    <div style={{maxWidth:1280,margin:"0 auto",padding:"0 28px",display:"flex",alignItems:"center",justifyContent:"space-between",height:"100%"}}>
+      <span style={{...O,fontSize:17,fontWeight:900,letterSpacing:"5px",color:C1,textShadow:`0 0 16px ${C1}50,0 0 32px ${C1}18`}}>LG</span>
+      <div style={{display:"flex",gap:22}}>
+        {links.map(l=>{const id=l.toLowerCase(),on=active===id;return(
+          <a key={l} href={"#"+id} style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",textDecoration:"none",color:on?"#e8f4f8":"rgba(200,225,235,0.35)",...O,transition:"color 0.25s",fontWeight:on?800:500,position:"relative",textShadow:on?`0 0 12px ${C1}50`:"none"}}>
+            {l}{on&&<span style={{position:"absolute",bottom:-6,left:0,right:0,height:2,background:`linear-gradient(90deg,${C1},${C2})`,borderRadius:1}}/>}
+          </a>
+        );})}
+      </div>
+    </div>
+  </nav>
+}
+
+function Orb(){
+  const ref=useRef(null),raf=useRef(null);
+  useEffect(()=>{
+    const c=ref.current,ctx=c.getContext("2d");c.width=200;c.height=200;let t=0;
+    const draw=()=>{
+      ctx.clearRect(0,0,200,200);t+=0.008;const cx=100,cy=100,r=60;
+      const g=ctx.createRadialGradient(cx-15,cy-20,5,cx,cy,r);
+      g.addColorStop(0,"rgba(200,230,245,0.28)");g.addColorStop(0.3,"rgba(0,200,232,0.10)");
+      g.addColorStop(0.7,"rgba(15,181,160,0.05)");g.addColorStop(1,"rgba(6,15,26,0.85)");
+      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(0,200,232,${0.16+Math.sin(t*3)*0.07})`;ctx.lineWidth=1.5;ctx.stroke();
+      for(let i=0;i<3;i++){
+        ctx.beginPath();ctx.ellipse(cx,cy,r+8+i*6,18+i*4,t*1.2+i*2.09,0,Math.PI*2);
+        ctx.strokeStyle=i%2===0?`rgba(0,200,232,${0.09+Math.sin(t+i)*0.04})`:`rgba(15,181,160,${0.07+Math.sin(t+i)*0.03})`;
+        ctx.lineWidth=0.9;ctx.stroke();}
+      const sg=ctx.createRadialGradient(cx-20,cy-25,2,cx-20,cy-25,30);
+      sg.addColorStop(0,"rgba(232,244,248,0.18)");sg.addColorStop(1,"rgba(232,244,248,0)");
+      ctx.beginPath();ctx.arc(cx-20,cy-25,30,0,Math.PI*2);ctx.fillStyle=sg;ctx.fill();
+      raf.current=requestAnimationFrame(draw);};
+    draw();return()=>cancelAnimationFrame(raf.current);
+  },[]);
+  return <canvas ref={ref} style={{width:160,height:160,animation:"orbFloat 5s ease-in-out infinite",flexShrink:0,filter:"drop-shadow(0 0 24px rgba(0,200,232,0.22))"}}/>
+}
+
+function Hero(){
+  const [v,setV]=useState(false);
+  useEffect(()=>{requestAnimationFrame(()=>setV(true))},[]);
+  const stats=[
+    {val:"$80M",label:"Budget Managed",c:C1},
+    {val:"$3M",label:"Revenue Found",c:C3},
+    {val:"13+",label:"Years Finance",c:C2},
+    {val:"FCCA",label:"Chartered",c:C4},
+    {val:"6",label:"Apps Built",c:C1},
+    {val:"3",label:"Countries",c:C2},
+  ];
+  return <section id="about" style={{position:"relative",minHeight:"100vh",display:"flex",flexDirection:"column",justifyContent:"center",padding:"120px 32px 80px",maxWidth:1280,margin:"0 auto",zIndex:2,opacity:v?1:0,transform:v?"none":"translateY(40px)",transition:"all 0.9s cubic-bezier(0.16,1,0.3,1)"}}>
+    <div style={{display:"flex",alignItems:"center",gap:48,flexWrap:"wrap"}}>
+      <div style={{flex:1,minWidth:300}}>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:18}}>
+          <div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"5px 14px",borderRadius:20,background:`linear-gradient(135deg,${C1}09,${C2}06)`,border:`1px solid ${C1}38`,animation:"opptyPulse 3s ease infinite"}}>
+            <span style={{width:7,height:7,borderRadius:"50%",background:C1,boxShadow:`0 0 10px ${C1}`}}/>
+            <span style={{fontSize:9,letterSpacing:"2.5px",textTransform:"uppercase",color:C1,...O,fontWeight:800}}>Open to AI · Full-Stack · FinTech Roles</span>
+          </div>
+        </div>
+
+        <h1 className="glitch-text" style={{...G,fontWeight:900,fontSize:"clamp(48px,7vw,92px)",lineHeight:0.92,color:"#e8f4f8",marginBottom:12,letterSpacing:"-2px"}}>Luiz Gonzales</h1>
+
+        <p style={{...O,fontSize:11,letterSpacing:"5px",textTransform:"uppercase",color:"rgba(200,225,240,0.42)",marginBottom:24,fontWeight:500}}>
+          FCCA <span style={{color:C1}}>·</span> Finance Leader <span style={{color:C2}}>·</span> Software Engineer <span style={{color:C4}}>·</span> Norfolk, VA
+        </p>
+
+        <p style={{...I,fontSize:16,lineHeight:1.9,color:"rgba(200,225,240,0.68)",maxWidth:580,fontWeight:400,marginBottom:32}}>
+          Chartered accountant with <strong style={{color:C1}}>13+ years managing $80M+ operations</strong> across healthcare, real estate, and international markets — who also <strong style={{color:C2}}>builds production AI software</strong> to solve the problems finance teams face every day.
+        </p>
+
+        <div className="stats-grid" style={{display:"grid",gridTemplateColumns:"repeat(6,1fr)",gap:10,marginBottom:36}}>
+          {stats.map((s,i)=>(
+            <div key={i} className="stat-card" style={{padding:"12px 8px",borderRadius:10,textAlign:"center",background:"rgba(5,12,24,0.85)",border:`1.5px solid ${s.c}38`,backdropFilter:"blur(12px)",boxShadow:`0 0 16px ${s.c}0c`}}>
+              <div style={{...O,fontSize:15,fontWeight:900,color:s.c,lineHeight:1,marginBottom:4,textShadow:`0 0 12px ${s.c}50`}}>{s.val}</div>
+              <div style={{...I,fontSize:8,color:"rgba(200,225,240,0.42)",fontWeight:600,letterSpacing:"0.3px",lineHeight:1.2}}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
+          <a href="#career" className="neon-btn" style={{display:"inline-block",...O,fontSize:10,letterSpacing:"3px",padding:"13px 30px",borderRadius:6,background:"transparent",border:`1.5px solid ${C1}`,color:C1,textDecoration:"none",fontWeight:700,textTransform:"uppercase"}}>View Career</a>
+          <a href="#projects" style={{display:"inline-block",...O,fontSize:10,letterSpacing:"3px",padding:"13px 26px",borderRadius:6,background:`${C2}08`,border:`1.5px solid ${C2}45`,color:C2,textDecoration:"none",fontWeight:700,textTransform:"uppercase",transition:"all 0.2s"}}>See Projects</a>
+          <a href="#contact" style={{display:"inline-block",...O,fontSize:10,letterSpacing:"3px",padding:"13px 22px",borderRadius:6,background:"rgba(232,244,248,0.04)",border:"1.5px solid rgba(200,225,240,0.15)",color:"rgba(200,225,240,0.65)",textDecoration:"none",fontWeight:700,textTransform:"uppercase",transition:"all 0.2s"}}>Contact</a>
+        </div>
+      </div>
+      <Orb/>
+    </div>
+  </section>
+}
+
+function Journey(){
+  const ref=useRef(null),[vis,setVis]=useState(false);
+  useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setVis(true)},{threshold:0.05});if(ref.current)o.observe(ref.current);return()=>o.disconnect();},[]);
+  const stops=[
+    {flag:"🇵🇭",country:"Philippines",sub:"Born & raised",accent:C2},
+    {flag:"🇦🇪",country:"Dubai, UAE",sub:"16 years",accent:C4},
+    {flag:"🇺🇸",country:"Norfolk, VA",sub:"U.S. Citizen · Now",accent:C1},
+  ];
+  const values=[
+    {icon:"⚡",text:"Root-cause problem solver — fix the system, not the symptom. Prevent it from happening again."},
+    {icon:"🎯",text:"The person colleagues call for urgent, complicated situations — then teaches everyone else after."},
+    {icon:"📚",text:"Stays humble knowing there's always more to learn — absorbs something new every single day."},
+    {icon:"🤝",text:"Team-first mindset with the ability to execute independently when needed."},
+    {icon:"🌍",text:"Shaped by three countries, four industries, and a drive to bring real value everywhere he goes."},
+  ];
+  return <section id="journey" ref={ref} className={`vis-in${vis?" visible":""}`} style={{padding:"80px 32px 60px",maxWidth:1280,margin:"0 auto",zIndex:2,position:"relative"}}>
+    <SL text="Story"/>
+    <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:40,letterSpacing:"-0.5px"}}>The Journey</h2>
+    <div className="journey-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:32}}>
+      <div>
+        <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:28,flexWrap:"wrap"}}>
+          {stops.map((s,i)=>(
+            <React.Fragment key={i}>
+              <div style={{textAlign:"center"}}>
+                <div style={{fontSize:36,marginBottom:5}}>{s.flag}</div>
+                <p style={{...I,fontSize:12,color:s.accent,fontWeight:700,margin:0,letterSpacing:"0.5px"}}>{s.country}</p>
+                <p style={{...I,fontSize:10,color:"rgba(200,225,240,0.38)",margin:"2px 0 0"}}>{s.sub}</p>
+              </div>
+              {i<stops.length-1&&<div style={{color:"rgba(200,225,240,0.2)",fontSize:22,paddingBottom:16}}>→</div>}
+            </React.Fragment>
+          ))}
+        </div>
+        <p style={{...I,fontSize:14.5,color:"rgba(200,225,240,0.7)",lineHeight:1.9,marginBottom:16}}>
+          Originally from the <strong style={{color:C2}}>Philippines</strong>, I built my career across <strong style={{color:C4}}>16 years in Dubai</strong> before settling in <strong style={{color:C1}}>Norfolk, Virginia</strong> as a newly naturalized American citizen. My path has been shaped by resilience — a turbulent beginning became the foundation for someone who doesn't just survive challenges, but dismantles them at the root.
+        </p>
+        <p style={{...I,fontSize:14.5,color:"rgba(200,225,240,0.7)",lineHeight:1.9,marginBottom:20}}>
+          Across three countries and four industries, I reached the top of every room I entered — finance director, trusted advisor, lead problem solver. When I saw the gaps in the tools finance teams relied on, I didn't wait for someone else to fix them. I taught myself to code and built the solutions myself.
+        </p>
+        <div style={{padding:"16px 20px",borderRadius:10,background:`linear-gradient(135deg,${C1}07,${C2}05)`,border:`1px solid ${C1}1e`,backdropFilter:"blur(8px)"}}>
+          <p style={{...I,fontSize:14,color:"rgba(200,225,240,0.55)",fontStyle:"italic",lineHeight:1.7,margin:0}}>
+            "I bring my existence to a company not just to get things done — but to improve them. I like to tackle problems at the root and prevent them from happening again."
+          </p>
+        </div>
+      </div>
+
+      <div style={{display:"flex",flexDirection:"column",gap:14}}>
+        <div style={{padding:"22px 24px",borderRadius:14,background:"rgba(4,10,22,0.92)",border:`1.5px solid ${C1}45`,backdropFilter:"blur(16px)",boxShadow:`0 4px 30px rgba(0,0,0,0.5),0 0 20px ${C1}0c`}}>
+          <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:12,marginBottom:10}}>
+            <div>
+              <p style={{...O,fontSize:8,letterSpacing:"3px",color:C1,marginBottom:5,fontWeight:800}}>EDUCATION & CERTIFICATION</p>
+              <h4 style={{...G,fontSize:17,color:"#e8f4f8",margin:"0 0 3px",fontWeight:700}}>Fellow Chartered Certified Accountant</h4>
+              <p style={{...I,fontSize:11,color:C1,margin:0,fontWeight:700,letterSpacing:"0.5px"}}>ACCA · Global Qualification · Fellowship Status</p>
+            </div>
+            <div style={{fontSize:32,flexShrink:0}}>🎓</div>
+          </div>
+          <p style={{...I,fontSize:12.5,color:"rgba(200,225,240,0.6)",lineHeight:1.65,margin:"0 0 12px"}}>
+            Globally recognized qualification covering Strategic Business Leadership, Advanced Financial Management, Audit & Assurance, IFRS Reporting, Corporate Law, and Taxation. Fellowship status reflects 5+ years of continuous professional development and adherence to the ACCA code of ethics.
+          </p>
+          <div style={{display:"flex",gap:8}}>
+            <span style={{...O,fontSize:8,padding:"4px 10px",borderRadius:4,background:`${C1}10`,border:`1px solid ${C1}38`,color:C1,letterSpacing:"1px"}}>FCCA · Active</span>
+            <span style={{...O,fontSize:8,padding:"4px 10px",borderRadius:4,background:`${C2}0d`,border:`1px solid ${C2}32`,color:C2,letterSpacing:"1px"}}>CPA · In Progress</span>
+          </div>
+        </div>
+
+        {values.map((v,i)=>(
+          <div key={i} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"11px 14px",borderRadius:9,background:"rgba(4,10,22,0.72)",border:"1px solid rgba(200,225,240,0.08)",backdropFilter:"blur(8px)"}}>
+            <span style={{fontSize:17,flexShrink:0}}>{v.icon}</span>
+            <span style={{...I,fontSize:12.5,color:"rgba(200,225,240,0.68)",lineHeight:1.55}}>{v.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+}
+
+function CareerTimeline(){
+  const ref=useRef(null),[vis,setVis]=useState(false);
+  useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setVis(true)},{threshold:0.03});if(ref.current)o.observe(ref.current);return()=>o.disconnect();},[]);
+  return <section id="career" ref={ref} className={`vis-in${vis?" visible":""}`} style={{padding:"80px 32px 100px",maxWidth:1280,margin:"0 auto",zIndex:2,position:"relative"}}>
+    <SL text="Experience"/>
+    <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:10,letterSpacing:"-0.5px"}}>Finance Career</h2>
+    <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:540,lineHeight:1.7,marginBottom:44,fontWeight:400}}>13+ years across healthcare, real estate, and international markets — from Dubai to Virginia.</p>
+    <div style={{position:"relative"}}>
+      <div style={{position:"absolute",left:19,top:0,bottom:0,width:2,background:`linear-gradient(180deg,${C1}55,${C2}40,${C4}45,${C3}38)`,borderRadius:2}}/>
+      {CAREER.map((job,i)=>(
+        <div key={i} style={{marginBottom:i<CAREER.length-1?28:0,paddingLeft:58,position:"relative",opacity:vis?1:0,transform:vis?"none":"translateY(20px)",transition:`opacity 0.55s ${i*0.12}s,transform 0.55s ${i*0.12}s`}}>
+          <div style={{position:"absolute",left:10,top:22,width:20,height:20,borderRadius:"50%",background:job.neon,boxShadow:`0 0 14px ${job.neon},0 0 28px ${job.neon}45`,border:"3px solid #060f1a",zIndex:1}}/>
+          <div className="career-card" style={{padding:"22px 26px",borderRadius:14,background:"rgba(4,10,22,0.88)",border:`1.5px solid ${job.neon}40`,backdropFilter:"blur(18px)",boxShadow:`0 6px 40px rgba(0,0,0,0.55),0 0 20px ${job.neon}07`}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:10,marginBottom:14}}>
+              <div>
+                <h3 style={{...G,fontSize:19,color:"#e8f4f8",margin:"0 0 4px",fontWeight:700}}>{job.role}</h3>
+                <p style={{...I,fontSize:13,color:job.neon,margin:"0 0 2px",fontWeight:700,textShadow:`0 0 10px ${job.neon}50`}}>{job.company}</p>
+                <p style={{...I,fontSize:11,color:"rgba(200,225,240,0.36)",margin:0}}>{job.location}</p>
+              </div>
+              <div style={{textAlign:"right",flexShrink:0}}>
+                <div style={{...O,fontSize:10,color:"rgba(200,225,240,0.58)",letterSpacing:"0.5px",marginBottom:5}}>{job.period}</div>
+                <span style={{...O,fontSize:8,padding:"3px 10px",borderRadius:4,background:`${job.neon}10`,border:`1px solid ${job.neon}38`,color:job.neon,letterSpacing:"1px",whiteSpace:"nowrap"}}>{job.industry}</span>
+              </div>
+            </div>
+            <div>
+              {job.highlights.map((h,j)=>(
+                <div key={j} style={{display:"flex",gap:10,marginBottom:7}}>
+                  <span style={{color:job.neon,flexShrink:0,fontSize:13,lineHeight:1.6,filter:`drop-shadow(0 0 4px ${job.neon})`}}>▸</span>
+                  <span style={{...I,fontSize:13,color:"rgba(200,225,240,0.72)",lineHeight:1.6}}>{h}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+}
+
+function Card({p,i:idx}){
+  const [flipped,setFlipped]=useState(false),[vis,setVis]=useState(false),[hovered,setHovered]=useState(false);
+  const ref=useRef(null),cardRef=useRef(null),c=p.neon;
+  useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setVis(true)},{threshold:0.05});if(ref.current)o.observe(ref.current);return()=>o.disconnect();},[]);
+  const handleMouse=useCallback((e)=>{
+    if(!cardRef.current||flipped)return;
+    const r=cardRef.current.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-0.5,y=(e.clientY-r.top)/r.height-0.5;
+    cardRef.current.style.transform=`perspective(900px) rotateY(${x*10}deg) rotateX(${-y*10}deg) scale(1.025)`;
+  },[flipped]);
+  const handleLeave=useCallback(()=>{if(cardRef.current)cardRef.current.style.transform="perspective(900px) rotateY(0) rotateX(0) scale(1)";setHovered(false);},[]);
+  const glow=hovered
+    ?`0 24px 80px rgba(0,0,0,0.9),0 0 50px ${c}70,0 0 100px ${c}25,inset 0 1px 0 rgba(232,244,248,0.12)`
+    :`0 8px 50px rgba(0,0,0,0.7),0 0 25px ${c}28,0 0 60px ${c}0e,inset 0 1px 0 rgba(232,244,248,0.06)`;
+  return <div ref={ref} style={{opacity:vis?1:0,transform:vis?"none":"translateY(32px)",transition:`opacity 0.55s ${idx*0.08}s,transform 0.55s ${idx*0.08}s`,perspective:900}}>
+    <div ref={cardRef} className="card-3d" onMouseMove={handleMouse} onMouseLeave={handleLeave} onMouseEnter={()=>setHovered(true)} style={{height:450,borderRadius:16,cursor:"pointer",position:"relative"}} onClick={()=>setFlipped(!flipped)}>
+      <div className={`card-flip-inner${flipped?" flipped":""}`}>
+        <div className="card-front" style={{background:"rgba(4,9,22,0.92)",backdropFilter:"blur(24px) saturate(180%)",WebkitBackdropFilter:"blur(24px) saturate(180%)",border:`1.5px solid ${c}`,boxShadow:glow}}>
+          <div style={{borderBottom:`1px solid ${c}28`,overflow:"hidden",borderRadius:"16px 16px 0 0"}} dangerouslySetInnerHTML={{__html:MOCKUPS[p.mock]}}/>
+          <div style={{padding:"14px 18px 10px",display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:8}}>
+            <div style={{flex:1,minWidth:0}}>
+              <h3 style={{...G,fontSize:15,color:"#e8f4f8",margin:0,fontWeight:700}}>{p.title}</h3>
+              <p style={{...I,fontSize:9,color:c,margin:"3px 0 0",letterSpacing:"2px",textTransform:"uppercase",fontWeight:700,textShadow:`0 0 8px ${c}70`}}>{p.cat}</p>
+            </div>
+            <div style={{display:"flex",gap:5,flexShrink:0}}>
+              <span style={{...I,fontSize:8,padding:"4px 9px",borderRadius:4,background:`${c}12`,border:`1px solid ${c}60`,color:c,fontWeight:700,cursor:"default",whiteSpace:"nowrap"}}>↗ Demo</span>
+              <span style={{...I,fontSize:8,padding:"4px 9px",borderRadius:4,background:"rgba(232,244,248,0.05)",border:"1px solid rgba(200,225,240,0.22)",color:"rgba(200,225,240,0.72)",fontWeight:700,cursor:"default",whiteSpace:"nowrap"}}>⌥ Code</span>
+            </div>
+          </div>
+          <div style={{padding:"0 18px 8px"}}>
+            <p style={{...I,fontSize:12,color:"rgba(200,225,240,0.68)",lineHeight:1.6,margin:0}}>{p.desc}</p>
+          </div>
+          <div style={{position:"absolute",bottom:12,left:14,right:14,display:"flex",flexWrap:"wrap",gap:4}}>
+            {p.stack.slice(0,5).map((t,j)=>(
+              <span key={j} style={{...I,fontSize:9,padding:"3px 8px",borderRadius:4,fontWeight:700,background:`${c}15`,color:c,border:`1px solid ${c}60`,textShadow:`0 0 6px ${c}70`}}>{t}</span>
+            ))}
+            {p.stack.length>5&&<span style={{...I,fontSize:9,padding:"3px 8px",borderRadius:4,fontWeight:600,color:"rgba(200,225,240,0.42)",border:"1px solid rgba(200,225,240,0.16)"}}>+{p.stack.length-5}</span>}
+          </div>
+        </div>
+        <div className="card-back" style={{background:"rgba(3,7,17,0.97)",backdropFilter:"blur(24px)",border:`1.5px solid ${c}85`,boxShadow:`0 0 50px ${c}25,inset 0 0 30px ${c}05`}}>
+          <h3 style={{...G,fontSize:17,color:c,marginBottom:14,fontWeight:700,textShadow:`0 0 24px ${c}60`}}>{p.title}</h3>
+          <div style={{flex:1}}>
+            {p.feats.map((f,j)=>(
+              <div key={j} style={{display:"flex",gap:8,marginBottom:8}}>
+                <span style={{color:c,fontSize:13,lineHeight:1,flexShrink:0,filter:`drop-shadow(0 0 5px ${c})`}}>▸</span>
+                <span style={{...I,fontSize:12,color:"rgba(200,225,240,0.82)",lineHeight:1.5,fontWeight:500}}>{f}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{marginTop:12,padding:"10px 13px",borderRadius:8,background:"rgba(232,244,248,0.02)",border:"1px solid rgba(200,225,240,0.08)"}}>
+            <p style={{...O,fontSize:7.5,letterSpacing:"2px",color:"rgba(200,225,240,0.28)",marginBottom:5}}>ARCHITECTURE</p>
+            <p style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10.5,color:"rgba(200,225,240,0.58)",margin:0,lineHeight:1.4}}>{p.arch}</p>
+          </div>
+          <div style={{marginTop:8,padding:"10px 13px",borderRadius:8,background:`${c}09`,border:`1px solid ${c}28`}}>
+            <p style={{...O,fontSize:7.5,letterSpacing:"2px",color:c,marginBottom:4,opacity:0.72}}>IMPACT</p>
+            <p style={{...I,fontSize:12.5,color:"rgba(200,225,240,0.88)",margin:0,fontWeight:600}}>{p.impact}</p>
+          </div>
+          <p style={{...I,fontSize:9,color:"rgba(200,225,240,0.22)",marginTop:10,textAlign:"center"}}>Click to flip back ↩</p>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+function Skills(){
+  const ref=useRef(null),[vis,setVis]=useState(false);
+  useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setVis(true)},{threshold:0.05});if(ref.current)o.observe(ref.current);return()=>o.disconnect();},[]);
+  return <section id="skills" ref={ref} className={`vis-in${vis?" visible":""}`} style={{padding:"80px 32px 100px",maxWidth:1280,margin:"0 auto",zIndex:2,position:"relative"}}>
+    <SL text="Skills"/>
+    <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:10,letterSpacing:"-0.5px"}}>Skills & Technologies</h2>
+    <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:540,lineHeight:1.7,marginBottom:36}}>Finance domain depth + software engineering breadth — a rare combination.</p>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(270px,1fr))",gap:14}}>
+      {Object.entries(SKILLS).map(([cat,skills],ci)=>(
+        <div key={cat} style={{padding:22,borderRadius:12,background:"rgba(4,10,22,0.85)",border:`1.5px solid ${NC[ci]}45`,backdropFilter:"blur(16px)",boxShadow:`0 4px 30px rgba(0,0,0,0.5),0 0 20px ${NC[ci]}0c`}}>
+          <h3 style={{...O,fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:NC[ci],marginBottom:13,fontWeight:800,textShadow:`0 0 10px ${NC[ci]}50`}}>{cat}</h3>
+          <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
+            {skills.map((s,si)=>(
+              <span key={si} className="skill-tag" style={{...I,fontSize:11,padding:"4px 10px",borderRadius:5,background:`${NC[ci]}0d`,border:`1px solid ${NC[ci]}45`,color:"rgba(200,225,240,0.82)",fontWeight:600,transition:"all 0.2s"}}>{s}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+}
+
+function Contact(){
+  const ref=useRef(null),[vis,setVis]=useState(false);
+  useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setVis(true)},{threshold:0.05});if(ref.current)o.observe(ref.current);return()=>o.disconnect();},[]);
+  const L=[
+    {l:"Email",v:"luizgon2907@gmail.com",h:"mailto:luizgon2907@gmail.com",n:C1},
+    {l:"LinkedIn",v:"linkedin.com/in/luiz-gonzales",h:"https://www.linkedin.com/in/luiz-gonzales",n:C2},
+    {l:"Location",v:"Norfolk, VA · U.S.A.",h:null,n:C4}
+  ];
+  return <section id="contact" ref={ref} className={`vis-in${vis?" visible":""}`} style={{padding:"80px 32px 130px",maxWidth:1280,margin:"0 auto",zIndex:2,position:"relative"}}>
+    <div style={{textAlign:"center",padding:"60px 36px",borderRadius:20,background:"rgba(4,10,22,0.88)",border:`1.5px solid ${C1}18`,backdropFilter:"blur(20px)",boxShadow:`0 8px 60px rgba(0,0,0,0.55),0 0 40px ${C1}06`}}>
+      <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",fontWeight:700,color:"#e8f4f8",marginBottom:8,letterSpacing:"-0.5px"}}>Let's Connect</h2>
+      <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.55)",maxWidth:480,margin:"0 auto 10px",lineHeight:1.75}}>
+        Whether you need a finance leader, a software engineer, or someone who is both — I bring real value from day one.
+      </p>
+      <p style={{...I,fontSize:13,color:"rgba(200,225,240,0.32)",maxWidth:480,margin:"0 auto 36px",lineHeight:1.6}}>
+        FCCA · 13+ Years Finance · AI-Native Developer · Open to opportunities
+      </p>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(170px,1fr))",gap:14,maxWidth:600,margin:"0 auto"}}>
+        {L.map((x,i)=>{
+          const cd=<div style={{padding:22,borderRadius:12,background:"rgba(0,0,0,0.25)",border:`1.5px solid ${x.n}30`,textAlign:"center",boxShadow:`0 0 20px ${x.n}07`,transition:"all 0.2s"}}>
+            <p style={{...O,fontSize:8,letterSpacing:"3px",textTransform:"uppercase",color:x.n,marginBottom:8,fontWeight:800,textShadow:`0 0 10px ${x.n}50`}}>{x.l}</p>
+            <p style={{...I,fontSize:12.5,color:"rgba(200,225,240,0.78)",margin:0,fontWeight:600,wordBreak:"break-all"}}>{x.v}</p>
+          </div>;
+          return x.h?<a key={i} href={x.h} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>{cd}</a>:<div key={i}>{cd}</div>;
+        })}
+      </div>
+      <p style={{...O,fontSize:9,color:"rgba(200,225,240,0.12)",marginTop:40,letterSpacing:"3px",fontWeight:700}}>LUIZ GABRIEL G. GONZALES · FCCA · NORFOLK, VA · 2026</p>
+    </div>
+  </section>
+}
+
+function App(){
+  const [active,setActive]=useState("about");
+  useEffect(()=>{
+    const ids=["about","journey","career","projects","skills","contact"];
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)}),{rootMargin:"-40% 0px -40% 0px"});
+    ids.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});return()=>obs.disconnect();
+  },[]);
+  return <div style={{position:"relative",zIndex:2}}>
+    <Nav active={active}/>
+    <Hero/>
+    <Journey/>
+    <CareerTimeline/>
+    <section id="projects" style={{padding:"60px 32px 100px",maxWidth:1280,margin:"0 auto",position:"relative",zIndex:2}}>
+      <SL text="Portfolio"/>
+      <h2 style={{...G,fontSize:"clamp(26px,3.5vw,44px)",color:"#e8f4f8",fontWeight:700,marginTop:8,marginBottom:12,letterSpacing:"-0.5px"}}>Software I've Built</h2>
+      <p style={{...I,fontSize:15,color:"rgba(200,225,240,0.44)",maxWidth:560,lineHeight:1.7,marginBottom:40}}>Every project solves a real problem I encountered in finance — built with production-grade code.</p>
+      <div className="pgrid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:18}}>
+        {PROJECTS.map((p,i)=><Card key={p.id} p={p} i={i}/>)}
+      </div>
+    </section>
+    <Skills/>
+    <Contact/>
+  </div>
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
